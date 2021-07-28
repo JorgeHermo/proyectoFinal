@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Axios from "axios";
-import { Row, Form, Col, Button, Container } from "react-bootstrap";
+import { Row, Form, Col, Button, Container, Alert } from "react-bootstrap";
 
 function Registro() {
   const [inputEmail, setinputEmail] = useState("");
@@ -10,8 +10,8 @@ function Registro() {
   const [inputApellido2, setinputApellido2] = useState("");
   const [inputDni, setinputDni] = useState("");
   const [inputTelefono, setinputTelefono] = useState("");
-  const [feedback, setFeedback] = useState("")
-  
+  const [feedback, setFeedback] = useState({ empty: true });
+
   const registrar = () => {
     Axios({
       method: "POST",
@@ -26,7 +26,13 @@ function Registro() {
       },
       withCredentials: true,
       url: `${process.env.REACT_APP_API_URL}/users/signup`,
-    }).then((res) => console.log(res));
+    }).then((res) => {
+      console.log(res);
+      setFeedback(res.data);
+      setTimeout(() => {
+        setFeedback({ empty: true });
+      }, 4000);
+    });
   };
 
   return (
@@ -93,9 +99,16 @@ function Registro() {
                 />
               </Form.Group>
             </Row>
-            <Button variant="primary" type="submit" onClick={()=>(registrar())}>
+            <Button variant="primary" onClick={() => registrar()}>
               Registrar
             </Button>
+            {feedback.empty ? (
+              ""
+            ) : (
+              <Alert variant={feedback.error ? "danger" : "success"}>
+                {feedback.mensaje}
+              </Alert>
+            )}
           </Form>
         </Row>
         <Row></Row>

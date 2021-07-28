@@ -188,14 +188,14 @@ app.post("/users/signup", function (req, res) {
           function (err, respuesta) {
             if (err !== null) {
               console.log(err);
-              res.send({ mensaje: "Ha habido un error: " + err });
+              res.send({ mensaje: "Ha habido un error: " + err, error: true });
             } else {
-              res.send({ mensaje: "Usuario registrado" });
+              res.send({ mensaje: "Usuario registrado", error: false });
             }
           }
         );
       } else {
-        res.send({ mensaje: "Usuario ya registrado" });
+        res.send({ mensaje: "Usuario ya registrado", error: true });
       }
     });
 });
