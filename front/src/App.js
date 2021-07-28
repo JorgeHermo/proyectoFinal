@@ -19,7 +19,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Header usuario={usuario} setUsuario={setUsuario}/>
+      <Header usuario={usuario} setUsuario={setUsuario} />
       <Route exact path="/">
         <Inicio />
       </Route>
@@ -36,7 +36,7 @@ function App() {
         <Registro />
       </Route>
       <Route exact path="/Usuario">
-        <Usuario setUsuario={setUsuario} usuario={usuario}/>
+        <Usuario setUsuario={setUsuario} usuario={usuario} />
       </Route>
       <Route exact path="/Noticias">
         <Noticias />

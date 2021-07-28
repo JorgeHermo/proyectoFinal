@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { Form, Button, Container, Row } from "react-bootstrap";
+import { Form, Button, Container, Row, Alert } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 
 function Usuario(props) {
@@ -9,7 +9,7 @@ function Usuario(props) {
   const [inputEmail, setinputEmail] = useState("");
   const [inputPassword, setinputPassword] = useState("");
   const [data, setData] = useState(null);
-  const [feedback, setFeedback] = useState("");
+  const [feedback, setFeedback] = useState({empty: true});
 
   const login = () => {
     console.log("llamando");
@@ -24,6 +24,10 @@ function Usuario(props) {
     }).then((res) => {
       console.log(res);
       props.setUsuario(res.data);
+      setFeedback(res.data);
+      setTimeout(() => {
+        setFeedback({empty: true})
+      }, 4000);
     });
   };
 
@@ -58,6 +62,13 @@ function Usuario(props) {
               <Button variant="primary" onClick={() => login()}>
                 LOGIN
               </Button>
+              {feedback.empty ? (
+              ""
+            ) : (
+              <Alert variant={feedback.error ? "danger" : "success"}>
+                {feedback.mensaje}
+              </Alert>
+            )}
             </Form.Group>
           </Form>
         </Row>
